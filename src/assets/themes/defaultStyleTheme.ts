@@ -25,4 +25,32 @@ export const defaultTheme = extendTheme({
       title: '#272221',
     },
   },
+  components: {
+    Text: {
+      variants: {
+        tag: {
+          bg: '#F1E9C9',
+          color: '#C47F17',
+          fontSize: '0.625rem',
+          fontFamily: "'Roboto', sans-serif",
+          fontWeight: 'bold',
+          lineHeight: 1.3,
+          p: '0.25rem 0.5rem',
+          borderRadius: 100,
+          marginRight: '0.25rem',
+        },
+      },
+    },
+    Button: {
+      variants: {
+        inputButton: {
+          bg: 'transparent',
+          color: '#8047F8',
+          p: '0',
+          width: '15px',
+          minWidth: '15px',
+        },
+      },
+    },
+  },
 })

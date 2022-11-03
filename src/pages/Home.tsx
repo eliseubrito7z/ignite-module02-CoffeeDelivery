@@ -7,7 +7,12 @@ import {
   Image,
   useTheme,
   Avatar,
+  HStack,
+  Button,
+  Wrap,
+  WrapItem,
 } from '@chakra-ui/react'
+import { ShoppingCart } from 'phosphor-react'
 import { useContext } from 'react'
 
 import coffeeImage from '../assets/Coffe.svg'
@@ -67,14 +72,7 @@ export function Home() {
           </Box>
         </Flex>
       </Container>
-      <Container
-        as="div"
-        padding="2rem 0"
-        width="70rem"
-        maxW="100%"
-        border="1px solid red"
-        marginX="1.125rem"
-      >
+      <Container as="div" width="70rem" maxW="100%">
         <Heading
           fontFamily="'Baloo 2', cursive"
           color={theme.colors.base.title}
@@ -85,10 +83,12 @@ export function Home() {
           Nossos cafés
         </Heading>
 
-        <Flex flexWrap="wrap" gap={10} justifyContent="flex-start">
-          {listOfCoffeesAvailable.map((coffee) => {
-            return <CoffeeCard key={coffee.id} coffeeInfo={coffee} />
-          })}
+        <Flex>
+          <Wrap spacing="20px" paddingTop="4.5rem">
+            {listOfCoffeesAvailable.map((coffee) => {
+              return <CoffeeCard key={coffee.id} coffeeInfo={coffee} />
+            })}
+          </Wrap>
         </Flex>
       </Container>
     </Container>

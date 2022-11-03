@@ -29,7 +29,7 @@ export function Header() {
     <Container width="1100px" maxWidth="100vw" as="header" py="1.5rem">
       <Flex>
         <Button variant="unstyled">
-          <img src={logo} onClick={handleGoToHome} />
+          <img src={logo} onClick={handleGoToHome} alt="Logo Coffee Delivery" />
         </Button>
         <Spacer />
         <HStack
