@@ -39,6 +39,27 @@ export const defaultTheme = extendTheme({
           borderRadius: 100,
           marginRight: '0.25rem',
         },
+        subtitle: {
+          color: '#403937',
+          fontSize: '1rem',
+          fontFamily: "'Roboto', sans-serif",
+          fontWeight: '400',
+          lineHeight: 1.3,
+        },
+        text: {
+          color: '#574F4D',
+          fontSize: '0.875rem',
+          fontFamily: "'Roboto', sans-serif",
+          fontWeight: '400',
+          lineHeight: 1.3,
+        },
+        ButtonS: {
+          color: '#574F4D',
+          fontSize: '0.75rem',
+          fontFamily: "'Roboto', sans-serif",
+          fontWeight: '400',
+          lineHeight: 1.6,
+        },
       },
     },
     Button: {

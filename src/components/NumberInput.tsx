@@ -35,13 +35,14 @@ export function NumberInputComponent() {
         <Minus size={14} weight="bold" />
       </Button>
       <Input
-        width="5rem"
-        // focusBorderColor="transparent"
+        width="25px"
+        focusBorderColor="transparent"
         bg="transparent"
         p="0"
         textAlign="center"
         marginX="5px"
-        readOnly
+        isReadOnly
+        fontSize="0.875rem"
         {...input}
       />
       <Button variant="inputButton" {...inc}>

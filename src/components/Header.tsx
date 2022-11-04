@@ -26,7 +26,7 @@ export function Header() {
   }
 
   return (
-    <Container width="1100px" maxWidth="100vw" as="header" py="1.5rem">
+    <Container width="90rem" maxWidth="100%" px="10rem" as="header" py="1.5rem">
       <Flex>
         <Button variant="unstyled">
           <img src={logo} onClick={handleGoToHome} alt="Logo Coffee Delivery" />

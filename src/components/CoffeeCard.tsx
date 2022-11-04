@@ -6,6 +6,7 @@ import {
   HStack,
   IconButton,
   Image,
+  Spacer,
   Text,
   useTheme,
 } from '@chakra-ui/react'
@@ -90,6 +91,7 @@ export function CoffeeCard({ coffeeInfo }: CoffeeCardContent) {
             fontSize="0.875rem"
             fontWeight="400"
             lineHeight={1.3}
+            marginRight="1.3rem"
           >
             R$ {formattedPrice}
           </Text>

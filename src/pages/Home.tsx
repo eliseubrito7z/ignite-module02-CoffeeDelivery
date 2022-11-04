@@ -11,6 +11,8 @@ import {
   Button,
   Wrap,
   WrapItem,
+  Center,
+  VStack,
 } from '@chakra-ui/react'
 import { ShoppingCart } from 'phosphor-react'
 import { useContext } from 'react'
@@ -30,9 +32,15 @@ export function Home() {
   const { listOfCoffeesAvailable } = useContext(CoffeeContext)
 
   return (
-    <Container as="main" width="70rem" maxW="100%" py={8} px={0}>
-      <Container as="div" width="100%" maxW="100%" paddingBottom="6.75rem">
-        <Flex columnGap="3.5rem">
+    <Container
+      as="main"
+      width="90rem"
+      maxWidth="100%"
+      px="10rem"
+      paddingTop="5.875rem"
+    >
+      <Container as="div" width="100%" maxWidth="100%">
+        <HStack>
           <Box>
             <Heading
               fontFamily="'Baloo 2', cursive"
@@ -67,12 +75,16 @@ export function Home() {
               <IconCoffee />
             </Box>
           </Box>
-          <Box mt={{ base: 10, md: 0 }} width="80%">
-            <img src={coffeeImage} alt="" />
-          </Box>
-        </Flex>
+          <Image src={coffeeImage} w="476px" h="360px" />
+        </HStack>
       </Container>
-      <Container as="div" width="70rem" maxW="100%">
+      <Container
+        as="div"
+        width="80rem"
+        maxWidth="80rem"
+        marginTop="8.75rem"
+        paddingBottom="10rem"
+      >
         <Heading
           fontFamily="'Baloo 2', cursive"
           color={theme.colors.base.title}
@@ -84,7 +96,7 @@ export function Home() {
         </Heading>
 
         <Flex>
-          <Wrap spacing="20px" paddingTop="4.5rem">
+          <Wrap spacing="2rem" paddingTop="4.5rem">
             {listOfCoffeesAvailable.map((coffee) => {
               return <CoffeeCard key={coffee.id} coffeeInfo={coffee} />
             })}
