@@ -10,8 +10,18 @@ export interface CoffeesAvailable {
   tags: string[]
 }
 
+export interface CoffeeOrder {
+  id: string // '1'
+  title: string // Expresso Tradicional
+  img: string
+  price: number
+  amount: number
+}
+
 interface CoffeeContextType {
   listOfCoffeesAvailable: CoffeesAvailable[]
+  itemsOnCart: CoffeeOrder[]
+  addOnCart: (coffeeData: CoffeesAvailable, amount: number) => void
 }
 
 export const CoffeeContext = createContext({} as CoffeeContextType)
@@ -145,10 +155,29 @@ export function CoffeeContextProvider({
     },
   ])
 
+  const [itemsOnCart, setItemsOnCart] = useState<CoffeeOrder[]>([])
+
+  function addOnCart(coffeeData: CoffeesAvailable, amount: number) {
+    const newItem: CoffeeOrder = {
+      id: coffeeData.id,
+      title: coffeeData.title,
+      img: coffeeData.img,
+      price: coffeeData.price,
+      amount,
+    }
+
+    setItemsOnCart((state) => [newItem, ...state])
+    console.log('NOVO ITEM', newItem)
+  }
+
+  console.log('ITEMS NO CARRINHO', itemsOnCart)
+
   return (
     <CoffeeContext.Provider
       value={{
         listOfCoffeesAvailable,
+        itemsOnCart,
+        addOnCart,
       }}
     >
       {children}

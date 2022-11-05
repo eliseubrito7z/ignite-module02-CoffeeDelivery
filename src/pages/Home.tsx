@@ -25,7 +25,7 @@ import {
   IconCoffee,
   IconTimer,
 } from '../components/IconsHome'
-import { CoffeeContext } from '../context/CoffeeContext'
+import { CoffeeContext, CoffeesAvailable } from '../context/CoffeeContext'
 
 export function Home() {
   const theme = useTheme()
@@ -34,12 +34,18 @@ export function Home() {
   return (
     <Container
       as="main"
-      width="90rem"
-      maxWidth="100%"
-      px="10rem"
-      paddingTop="5.875rem"
+      width="70rem"
+      maxWidth="100vw"
+      // border="0.1px solid red"
+      px="0"
     >
-      <Container as="div" width="100%" maxWidth="100%">
+      <Container
+        as="div"
+        width="100%"
+        maxWidth="100vw"
+        // border="0.1px solid red"
+        padding="3rem 0 0 0"
+      >
         <HStack>
           <Box>
             <Heading
@@ -75,17 +81,19 @@ export function Home() {
               <IconCoffee />
             </Box>
           </Box>
-          <Image src={coffeeImage} w="476px" h="360px" />
+          <img src={coffeeImage} alt="" />
         </HStack>
       </Container>
       <Container
         as="div"
-        width="80rem"
-        maxWidth="80rem"
-        marginTop="8.75rem"
+        width="100%"
+        maxWidth="100vw"
+        // px="0rem"
         paddingBottom="10rem"
+        // border="0.1px solid red"
       >
         <Heading
+          as="h1"
           fontFamily="'Baloo 2', cursive"
           color={theme.colors.base.title}
           fontWeight={800}
@@ -95,13 +103,15 @@ export function Home() {
           Nossos cafés
         </Heading>
 
-        <Flex>
-          <Wrap spacing="2rem" paddingTop="4.5rem">
-            {listOfCoffeesAvailable.map((coffee) => {
-              return <CoffeeCard key={coffee.id} coffeeInfo={coffee} />
-            })}
-          </Wrap>
-        </Flex>
+        <Box width="70rem" maxW="70rem">
+          <Flex flexWrap="wrap" justifyContent="space-around">
+            <Wrap spacingX="2rem" spacingY="2.5rem" paddingTop="3.375rem">
+              {listOfCoffeesAvailable.map((coffee) => {
+                return <CoffeeCard key={coffee.id} coffeeInfo={coffee} />
+              })}
+            </Wrap>
+          </Flex>
+        </Box>
       </Container>
     </Container>
   )
