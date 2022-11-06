@@ -32,20 +32,8 @@ export function Home() {
   const { listOfCoffeesAvailable } = useContext(CoffeeContext)
 
   return (
-    <Container
-      as="main"
-      width="70rem"
-      maxWidth="100vw"
-      // border="0.1px solid red"
-      px="0"
-    >
-      <Container
-        as="div"
-        width="100%"
-        maxWidth="100vw"
-        // border="0.1px solid red"
-        padding="3rem 0 0 0"
-      >
+    <Container as="main" width="70rem" maxWidth="100vw" px="0">
+      <Container as="div" width="100%" maxWidth="100vw" padding="3rem 0 2rem 0">
         <HStack>
           <Box>
             <Heading
@@ -84,14 +72,7 @@ export function Home() {
           <img src={coffeeImage} alt="" />
         </HStack>
       </Container>
-      <Container
-        as="div"
-        width="100%"
-        maxWidth="100vw"
-        // px="0rem"
-        paddingBottom="10rem"
-        // border="0.1px solid red"
-      >
+      <Container as="div" width="100%" maxWidth="100vw" paddingBottom="10rem">
         <Heading
           as="h1"
           fontFamily="'Baloo 2', cursive"

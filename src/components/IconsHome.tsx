@@ -2,7 +2,14 @@
 
 // ICONS USED IN HEADER OF HOME PAGE
 
-import { ShoppingCart, Timer, Package, Coffee } from 'phosphor-react'
+import {
+  ShoppingCart,
+  Timer,
+  Package,
+  Coffee,
+  MapPin,
+  CurrencyDollar,
+} from 'phosphor-react'
 import { Text, Box, useTheme } from '@chakra-ui/react'
 
 export function IconCart() {
@@ -104,6 +111,57 @@ export function IconCoffee() {
         color={theme.colors.base.text}
       >
         O café chega fresquinho até você
+      </Text>
+    </Box>
+  )
+}
+
+export function IconMapPin() {
+  const theme = useTheme()
+
+  return (
+    <Box display="flex" alignItems="center">
+      <Text
+        color={theme.colors.base.bg}
+        bg={theme.colors.purple.medium}
+        padding="0.5rem"
+        borderRadius={100}
+      >
+        <MapPin size={16} weight="fill" />
+      </Text>
+    </Box>
+  )
+}
+
+export function IconMoney() {
+  const theme = useTheme()
+
+  return (
+    <Box display="flex" alignItems="center">
+      <Text
+        color={theme.colors.base.bg}
+        bg={theme.colors.yellow.dark}
+        padding="0.5rem"
+        borderRadius={100}
+      >
+        <CurrencyDollar size={16} weight="fill" />
+      </Text>
+    </Box>
+  )
+}
+
+export function IconTimerFinalization() {
+  const theme = useTheme()
+
+  return (
+    <Box display="flex" gap="0.75rem" alignItems="center">
+      <Text
+        color={theme.colors.base.bg}
+        bg={theme.colors.yellow.medium}
+        padding="0.5rem"
+        borderRadius={100}
+      >
+        <Timer size={16} weight="fill" />
       </Text>
     </Box>
   )

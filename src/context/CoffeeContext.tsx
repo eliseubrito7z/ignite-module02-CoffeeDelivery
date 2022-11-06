@@ -1,3 +1,4 @@
+import { Text } from '@chakra-ui/react'
 import { useState, createContext, ReactNode, Children } from 'react'
 import { CoffeesTypes } from './CoffeImages'
 
@@ -18,10 +19,25 @@ export interface CoffeeOrder {
   amount: number
 }
 
+export interface DeliveryOrder {
+  id: string
+  Coffees: CoffeeOrder[]
+  OrderPrice: number
+  CEP: string
+  Rua: string
+  Num: number
+  Comp: string | undefined
+  Bairro: string
+  Cidade: string
+  UF: string
+  PaymentMethod: string | string
+}
+
 interface CoffeeContextType {
   listOfCoffeesAvailable: CoffeesAvailable[]
   itemsOnCart: CoffeeOrder[]
   addOnCart: (coffeeData: CoffeesAvailable, amount: number) => void
+  onUpdateAmountInCart: (id: string, newAmount: number) => void
 }
 
 export const CoffeeContext = createContext({} as CoffeeContextType)
@@ -156,6 +172,7 @@ export function CoffeeContextProvider({
   ])
 
   const [itemsOnCart, setItemsOnCart] = useState<CoffeeOrder[]>([])
+  const [deliveryOrders, setDeliveryOrders] = useState<DeliveryOrder[]>([])
 
   function addOnCart(coffeeData: CoffeesAvailable, amount: number) {
     const newItem: CoffeeOrder = {
@@ -172,12 +189,24 @@ export function CoffeeContextProvider({
 
   console.log('ITEMS NO CARRINHO', itemsOnCart)
 
+  function onUpdateAmountInCart(id: string, newAmount: number) {
+    const newListUpdated = itemsOnCart.map((coffee) => {
+      if (coffee.id === id) {
+        return { ...coffee, amount: newAmount }
+      }
+      return coffee
+    })
+
+    setItemsOnCart(newListUpdated)
+  }
+
   return (
     <CoffeeContext.Provider
       value={{
         listOfCoffeesAvailable,
         itemsOnCart,
         addOnCart,
+        onUpdateAmountInCart,
       }}
     >
       {children}

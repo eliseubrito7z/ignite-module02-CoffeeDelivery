@@ -10,8 +10,9 @@ import {
 } from '@chakra-ui/react'
 import { Trash } from 'phosphor-react'
 import { NumberInputComponent } from './NumberInput'
-import { useState } from 'react'
-import { CoffeeOrder } from '../context/CoffeeContext'
+import { useContext, useState, useEffect } from 'react'
+import { CoffeeContext, CoffeeOrder } from '../context/CoffeeContext'
+import { FormattedNumber } from 'react-intl'
 
 interface CoffeeItemProps {
   coffee: CoffeeOrder
@@ -19,7 +20,17 @@ interface CoffeeItemProps {
 
 export function CartItem({ coffee }: CoffeeItemProps) {
   const theme = useTheme()
+  const { itemsOnCart, onUpdateAmountInCart } = useContext(CoffeeContext)
   const [newAmountInput, setNewAmountInput] = useState(coffee.amount)
+
+  const formattedPrice = (
+    <FormattedNumber
+      value={coffee.amount * coffee.price}
+      minimumFractionDigits={2}
+      maximumFractionDigits={2}
+      currency="BRL"
+    />
+  )
 
   function handleDecrementAmountInput() {
     if (newAmountInput > 1) {
@@ -30,12 +41,17 @@ export function CartItem({ coffee }: CoffeeItemProps) {
   function handleIncrementAmountInput() {
     setNewAmountInput(newAmountInput + 1)
   }
+
+  useEffect(() => {
+    onUpdateAmountInCart(coffee.id, newAmountInput)
+  }, [newAmountInput])
+
   return (
     <Flex
       width="100%"
       maxW="31.125rem"
       paddingY="1.5rem"
-      borderBottom="1px solid #8D8686"
+      borderBottom="1px solid #E6E5E5"
       display="flex"
       alignItems="flex-start"
       justifyContent="space-between"
@@ -79,7 +95,7 @@ export function CartItem({ coffee }: CoffeeItemProps) {
         lineHeight={1.3}
         display="flex"
       >
-        R$ {coffee.price.toFixed(2)}
+        R$ {formattedPrice}
       </Text>
     </Flex>
   )
