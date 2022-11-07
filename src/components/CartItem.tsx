@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Container,
   Flex,
   HStack,
@@ -20,7 +21,8 @@ interface CoffeeItemProps {
 
 export function CartItem({ coffee }: CoffeeItemProps) {
   const theme = useTheme()
-  const { itemsOnCart, onUpdateAmountInCart } = useContext(CoffeeContext)
+  const { itemsOnCart, onUpdateAmountInCart, deleteItem } =
+    useContext(CoffeeContext)
   const [newAmountInput, setNewAmountInput] = useState(coffee.amount)
 
   const formattedPrice = (
@@ -40,6 +42,10 @@ export function CartItem({ coffee }: CoffeeItemProps) {
 
   function handleIncrementAmountInput() {
     setNewAmountInput(newAmountInput + 1)
+  }
+
+  function handleDeleteItem() {
+    deleteItem(coffee.id)
   }
 
   useEffect(() => {
@@ -66,7 +72,7 @@ export function CartItem({ coffee }: CoffeeItemProps) {
               IncrementAmountInput={handleIncrementAmountInput}
               amount={newAmountInput}
             />
-            <Box
+            <Button
               display="flex"
               alignItems="center"
               padding="0.5rem"
@@ -75,7 +81,9 @@ export function CartItem({ coffee }: CoffeeItemProps) {
               gap="0.25rem"
               fontSize="0.75rem"
               fontFamily="'Roboto', sans-serif"
+              fontWeight="400"
               lineHeight={1.6}
+              onClick={handleDeleteItem}
             >
               <Trash
                 size={16}
@@ -83,7 +91,7 @@ export function CartItem({ coffee }: CoffeeItemProps) {
                 color={theme.colors.purple.medium}
               />
               REMOVER
-            </Box>
+            </Button>
           </HStack>
         </VStack>
       </Box>

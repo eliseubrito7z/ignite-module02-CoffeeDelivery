@@ -18,19 +18,10 @@ import { NumberInputComponent } from './NumberInput'
 import { CartItem } from './CartItem'
 import { FormattedNumber, IntlProvider } from 'react-intl'
 
-interface Prices {
-  totalItemsValue: number
-  deliveryCust: number | number
-  totalOrderCust: number
-}
-
-export function CartPart({
-  totalItemsValue,
-  deliveryCust,
-  totalOrderCust,
-}: Prices) {
+export function CartPart() {
   const theme = useTheme()
-  const { itemsOnCart } = useContext(CoffeeContext)
+  const { itemsOnCart, totalItemsPrice, deliveryCustConditions, totalOrder } =
+    useContext(CoffeeContext)
   console.log('clicou')
 
   return (
@@ -56,14 +47,14 @@ export function CartPart({
           <Box display="flex" width="100%" justifyContent="space-between">
             <Text variant="text">Total de itens</Text>
             <Text variant="text" fontSize="1rem">
-              R$ {totalItemsValue.toFixed(2)}
+              R$ {totalItemsPrice.toFixed(2)}
             </Text>
           </Box>
 
           <Box display="flex" width="100%" justifyContent="space-between">
             <Text variant="text">Entrega</Text>
             <Text variant="text" fontSize="1rem">
-              R$ {deliveryCust.toFixed(2)}
+              R$ {deliveryCustConditions.toFixed(2)}
             </Text>
           </Box>
 
@@ -72,7 +63,7 @@ export function CartPart({
               Total
             </Text>
             <Text variant="subtitle" fontWeight="700" fontSize="1.25rem">
-              R$ {totalOrderCust.toFixed(2)}
+              R$ {totalOrder.toFixed(2)}
             </Text>
           </Box>
           <Button

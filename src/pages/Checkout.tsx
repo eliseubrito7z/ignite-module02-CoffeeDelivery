@@ -11,7 +11,6 @@ import {
   Stack,
   InputGroup,
   InputRightAddon,
-  Spacer,
 } from '@chakra-ui/react'
 import {
   Bank,
@@ -23,12 +22,12 @@ import {
 import { CartPart } from '../components/CartPart'
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import { useContext } from 'react'
-import { CoffeeContext, DeliveryOrder } from '../context/CoffeeContext'
+import { CoffeeContext } from '../context/CoffeeContext'
 import { useForm } from 'react-hook-form'
 import { FormattedNumber } from 'react-intl'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export const RadioGroup = RadioGroupPrimitive.Root
 export const RadioItem = RadioGroupPrimitive.Item
@@ -50,35 +49,26 @@ export function Checkout() {
   const theme = useTheme()
   const navigate = useNavigate()
 
-  const { itemsOnCart } = useContext(CoffeeContext)
+  const {
+    totalItemsPrice,
+    deliveryCustConditions,
+    totalOrder,
+    newDeliveryOrder,
+  } = useContext(CoffeeContext)
   const { register, handleSubmit, formState, reset } =
     useForm<newDeliveryOrderData>({
       resolver: zodResolver(newDeliveryOrderValidationSchema),
-      // defaultValues: {
-      //   CEP: '',
-      //   Rua: '',
-      //   Num: '',
-      //   Comp: '',
-      //   Bairro: '',
-      //   Cidade: '',
-      //   UF: '',
-      //   PaymentMethod: '',
-      // },
+      defaultValues: {
+        CEP: '',
+        Rua: '',
+        Num: '',
+        Comp: '',
+        Bairro: '',
+        Cidade: '',
+        UF: '',
+        PaymentMethod: '',
+      },
     })
-
-  const itemsPrice = itemsOnCart.map((coffee) => {
-    const total = coffee.amount * coffee.price
-    return total
-  })
-
-  const totalItemsPrice = itemsPrice.reduce(function (total, itemValue) {
-    total += itemValue
-    return total
-  }, 0)
-
-  const deliveryCustConditions = totalItemsPrice > 25 ? 2.35 : 4.5
-
-  const totalOrder = totalItemsPrice + deliveryCustConditions
 
   const orderPrices = {
     totalItemsValue: (
@@ -105,29 +95,12 @@ export function Checkout() {
   }
 
   function handleCreateNewDeliveryOrder(data: newDeliveryOrderData) {
-    const newOrder: DeliveryOrder = {
-      id: String(new Date().getMilliseconds() * itemsOnCart.length),
-      Coffees: itemsOnCart.map((coffee) => {
-        return coffee
-      }),
-      OrderPrice: Number(totalOrder.toFixed(2)),
-      CEP: data.CEP,
-      Rua: data.Rua,
-      Num: Number(data.Num),
-      Comp: data.Comp,
-      Bairro: data.Bairro,
-      Cidade: data.Cidade,
-      UF: data.UF,
-      PaymentMethod: data.PaymentMethod,
-    }
+    newDeliveryOrder(data)
     console.log('DADOS ENVIADOS', data)
-    console.log('NOVA ORDEM DE ENTREGA', newOrder)
     reset()
     alert('NOVA ORDEM CRIADA')
     navigate('/finalization')
   }
-
-  console.log('ERROS', formState.errors)
 
   return (
     <Container as="main" width="70rem" maxW="70rem" display="flex" px="0">
@@ -295,35 +268,27 @@ export function Checkout() {
                 <Box marginTop="2rem">
                   <HStack justifyContent="space-between">
                     <RadioGroup {...register('PaymentMethod')}>
-                      <Box display="flex" gap="0.75rem">
-                        <RadioItem value="Crédito">
-                          <Button variant="payment">
-                            <CreditCard
-                              size={16}
-                              color={theme.colors.purple.medium}
-                            />
-                            <Text>Cartão de crédito</Text>
-                          </Button>
-                        </RadioItem>
-                        <RadioItem value="Débito">
-                          <Button variant="payment">
-                            <Bank
-                              size={16}
-                              color={theme.colors.purple.medium}
-                            />
-                            <Text>Cartão de Débito</Text>
-                          </Button>
-                        </RadioItem>
-                        <RadioItem value="Dinheiro">
-                          <Button variant="payment">
-                            <Money
-                              size={16}
-                              color={theme.colors.purple.medium}
-                            />
-                            <Text>Dinheiro</Text>
-                          </Button>
-                        </RadioItem>
-                      </Box>
+                      <RadioItem value="Cartão de Crédito">
+                        <Button variant="payment">
+                          <CreditCard
+                            size={16}
+                            color={theme.colors.purple.medium}
+                          />
+                          <Text>Cartão de crédito</Text>
+                        </Button>
+                      </RadioItem>
+                      <RadioItem value="Cartão de Débito">
+                        <Button variant="payment">
+                          <Bank size={16} color={theme.colors.purple.medium} />
+                          <Text>Cartão de Débito</Text>
+                        </Button>
+                      </RadioItem>
+                      <RadioItem value="Dinheiro">
+                        <Button variant="payment">
+                          <Money size={16} color={theme.colors.purple.medium} />
+                          <Text>Dinheiro</Text>
+                        </Button>
+                      </RadioItem>
                     </RadioGroup>
                   </HStack>
                 </Box>
@@ -341,11 +306,7 @@ export function Checkout() {
             >
               Complete seu pedido
             </Text>
-            <CartPart
-              totalItemsValue={totalItemsPrice}
-              deliveryCust={deliveryCustConditions}
-              totalOrderCust={totalOrder}
-            />
+            <CartPart />
           </Box>
         </HStack>
       </form>

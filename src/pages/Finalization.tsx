@@ -14,9 +14,17 @@ import {
   IconTimerFinalization,
 } from '../components/IconsHome'
 import deliveryImage from '../assets/delivery.svg'
+import { useContext } from 'react'
+import { CoffeeContext } from '../context/CoffeeContext'
 
 export function FinalizationPage() {
   const theme = useTheme()
+  const { userPurchase } = useContext(CoffeeContext)
+
+  const RuaNumero = `${userPurchase.Rua}, ${userPurchase.Num}`
+  const Bairro = userPurchase.Bairro
+  const CidadeUF = `${userPurchase.Cidade}, ${userPurchase.UF}`
+  const Pagamento = userPurchase.PaymentMethod
 
   return (
     <Container width="100%" maxW="70rem" marginTop="5rem" p="0">
@@ -59,8 +67,10 @@ export function FinalizationPage() {
             <Flex gap="0.75rem">
               <IconMapPin />
               <Text variant="text" fontSize="1rem">
-                Entrega em <strong>RUA, NUMERO</strong> <br />{' '}
-                <strong>BAIRRO - CIDADE, UF</strong>
+                Entrega em <strong>{RuaNumero}</strong> <br />{' '}
+                <strong>
+                  {Bairro} - {CidadeUF}
+                </strong>
               </Text>
             </Flex>
             <Flex gap="0.75rem">
@@ -72,7 +82,7 @@ export function FinalizationPage() {
             <Flex gap="0.75rem">
               <IconMoney />
               <Text variant="text" fontSize="1rem">
-                Pagamento na entrega <br /> <strong>FORMA DE PAGAMENTO</strong>
+                Pagamento na entrega <br /> <strong>{Pagamento}</strong>
               </Text>
             </Flex>
           </VStack>

@@ -28,18 +28,18 @@ export function NumberInputComponent({
       h="2.375rem"
       bg={theme.colors.base.button}
       borderRadius="6px"
-      alignItems="center"
-      // padding="0.5rem"
+      paddingX="0.1rem"
       gap="0.25rem"
       justifyContent="center"
       _hover={{ cursor: 'pointer' }}
+      fontSize="0.875rem"
     >
       <span onClick={DecrementAmountInput}>
-        <Minus size={14} weight={'bold'} />
+        <Minus size={14} weight={'bold'} color={theme.colors.purple.medium} />
       </span>
-      <Input w="15px" variant={'unstyled'} type="number" value={amount} />
+      <Input w="1.5rem" variant={'unstyled'} type="number" value={amount} />
       <span onClick={IncrementAmountInput}>
-        <Plus size={14} weight={'bold'} />
+        <Plus size={14} weight={'bold'} color={theme.colors.purple.medium} />
       </span>
     </HStack>
   )

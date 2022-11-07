@@ -1,5 +1,6 @@
 import { Text } from '@chakra-ui/react'
 import { useState, createContext, ReactNode, Children } from 'react'
+import { FormattedNumber } from 'react-intl'
 import { CoffeesTypes } from './CoffeImages'
 
 export interface CoffeesAvailable {
@@ -19,6 +20,17 @@ export interface CoffeeOrder {
   amount: number
 }
 
+interface CheckoutData {
+  Comp?: string | undefined
+  CEP: string
+  Rua: string
+  Num: string
+  Bairro: string
+  Cidade: string
+  UF: string
+  PaymentMethod: string
+}
+
 export interface DeliveryOrder {
   id: string
   Coffees: CoffeeOrder[]
@@ -30,14 +42,21 @@ export interface DeliveryOrder {
   Bairro: string
   Cidade: string
   UF: string
-  PaymentMethod: string | string
+  PaymentMethod: string
 }
 
 interface CoffeeContextType {
   listOfCoffeesAvailable: CoffeesAvailable[]
   itemsOnCart: CoffeeOrder[]
+  totalItemsPrice: number
+  deliveryCustConditions: number
+  totalOrder: number
+  deliveryOrders: DeliveryOrder[]
+  userPurchase: CheckoutData
   addOnCart: (coffeeData: CoffeesAvailable, amount: number) => void
   onUpdateAmountInCart: (id: string, newAmount: number) => void
+  newDeliveryOrder: (data: CheckoutData) => void
+  deleteItem: (id: string) => void
 }
 
 export const CoffeeContext = createContext({} as CoffeeContextType)
@@ -173,6 +192,16 @@ export function CoffeeContextProvider({
 
   const [itemsOnCart, setItemsOnCart] = useState<CoffeeOrder[]>([])
   const [deliveryOrders, setDeliveryOrders] = useState<DeliveryOrder[]>([])
+  const [userPurchase, setUserPurchase] = useState<CheckoutData>({
+    CEP: '',
+    Rua: '',
+    Num: '',
+    Comp: '',
+    Bairro: '',
+    Cidade: '',
+    UF: '',
+    PaymentMethod: '',
+  })
 
   function addOnCart(coffeeData: CoffeesAvailable, amount: number) {
     const newItem: CoffeeOrder = {
@@ -200,6 +229,54 @@ export function CoffeeContextProvider({
     setItemsOnCart(newListUpdated)
   }
 
+  const itemsPrice = itemsOnCart.map((coffee) => {
+    const total = coffee.amount * coffee.price
+    return total
+  })
+
+  const totalItemsPrice = itemsPrice.reduce(function (total, itemValue) {
+    total += itemValue
+    return total
+  }, 0)
+
+  const deliveryCustConditions = totalItemsPrice > 25 ? 2.35 : 4.5
+
+  const totalOrder = totalItemsPrice + deliveryCustConditions
+
+  function ClearCart() {
+    setItemsOnCart([])
+  }
+
+  function newDeliveryOrder(data: CheckoutData) {
+    const newOrder: DeliveryOrder = {
+      id: String(new Date().getMilliseconds() * itemsOnCart.length),
+      Coffees: itemsOnCart.map((coffee) => {
+        return coffee
+      }),
+      OrderPrice: Number(totalOrder.toFixed(2)),
+      CEP: data.CEP,
+      Rua: data.Rua,
+      Num: Number(data.Num),
+      Comp: data.Comp,
+      Bairro: data.Bairro,
+      Cidade: data.Cidade,
+      UF: data.UF,
+      PaymentMethod: data.PaymentMethod,
+    }
+    setDeliveryOrders((state) => [newOrder, ...state])
+    setUserPurchase(data)
+    ClearCart()
+  }
+
+  console.log('NOVA ORDEM DE ENTREGA', deliveryOrders)
+
+  function deleteItem(id: string) {
+    const cartWithoutOne = itemsOnCart.filter((coffee) => {
+      return coffee.id !== id
+    })
+    setItemsOnCart(cartWithoutOne)
+  }
+
   return (
     <CoffeeContext.Provider
       value={{
@@ -207,6 +284,13 @@ export function CoffeeContextProvider({
         itemsOnCart,
         addOnCart,
         onUpdateAmountInCart,
+        totalItemsPrice,
+        deliveryCustConditions,
+        totalOrder,
+        deliveryOrders,
+        newDeliveryOrder,
+        userPurchase,
+        deleteItem,
       }}
     >
       {children}
