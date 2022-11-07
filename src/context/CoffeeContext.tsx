@@ -191,6 +191,7 @@ export function CoffeeContextProvider({
   ])
 
   const [itemsOnCart, setItemsOnCart] = useState<CoffeeOrder[]>([])
+
   const [deliveryOrders, setDeliveryOrders] = useState<DeliveryOrder[]>([])
   const [userPurchase, setUserPurchase] = useState<CheckoutData>({
     CEP: '',
@@ -203,21 +204,6 @@ export function CoffeeContextProvider({
     PaymentMethod: '',
   })
 
-  function addOnCart(coffeeData: CoffeesAvailable, amount: number) {
-    const newItem: CoffeeOrder = {
-      id: coffeeData.id,
-      title: coffeeData.title,
-      img: coffeeData.img,
-      price: coffeeData.price,
-      amount,
-    }
-
-    setItemsOnCart((state) => [newItem, ...state])
-    console.log('NOVO ITEM', newItem)
-  }
-
-  console.log('ITEMS NO CARRINHO', itemsOnCart)
-
   function onUpdateAmountInCart(id: string, newAmount: number) {
     const newListUpdated = itemsOnCart.map((coffee) => {
       if (coffee.id === id) {
@@ -228,6 +214,32 @@ export function CoffeeContextProvider({
 
     setItemsOnCart(newListUpdated)
   }
+
+  function coffeeAlreadyInCart(id: string) {
+    const coffee = itemsOnCart.find((coffee) => coffee.id === id)
+    return coffee
+  }
+
+  function addOnCart(coffeeData: CoffeesAvailable, amount: number) {
+    const alreadyInCart = coffeeAlreadyInCart(coffeeData.id)
+
+    const newItem: CoffeeOrder = {
+      id: coffeeData.id,
+      title: coffeeData.title,
+      img: coffeeData.img,
+      price: coffeeData.price,
+      amount,
+    }
+
+    if (alreadyInCart) {
+      console.log('Produto já adicionado!')
+    } else {
+      setItemsOnCart((state) => [newItem, ...state])
+      console.log('NOVO ITEM', newItem)
+    }
+  }
+
+  console.log('ITEMS NO CARRINHO', itemsOnCart)
 
   const itemsPrice = itemsOnCart.map((coffee) => {
     const total = coffee.amount * coffee.price

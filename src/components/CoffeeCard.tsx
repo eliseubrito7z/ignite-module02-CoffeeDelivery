@@ -21,7 +21,8 @@ interface CoffeeCardContent {
 
 export function CoffeeCard({ coffeeInfo }: CoffeeCardContent) {
   const theme = useTheme()
-  const { listOfCoffeesAvailable, addOnCart } = useContext(CoffeeContext)
+  const { listOfCoffeesAvailable, addOnCart, itemsOnCart } =
+    useContext(CoffeeContext)
   const [amountInput, setAmountInput] = useState(1)
 
   const coffeeTags = coffeeInfo.tags.map((tag) => {
